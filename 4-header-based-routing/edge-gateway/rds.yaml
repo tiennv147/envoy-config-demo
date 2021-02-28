@@ -1,7 +1,7 @@
 resources:
-    - name: t6-http-route
+    - name: http-route
       virtual_hosts:
-        - name: t6-http-route
+        - name: http-route
           domains:
             - "*"
           routes:
