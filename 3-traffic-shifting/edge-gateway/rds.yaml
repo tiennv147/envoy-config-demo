@@ -1,0 +1,30 @@
+resources:
+    - name: t6-http-route
+      virtual_hosts:
+        - name: t6-http-route
+          domains:
+            - "*"
+          routes:
+            - match:
+                runtime_fraction:
+                  default_value:
+                    numerator: 50
+                    denominator: HUNDRED
+                headers:
+                  - name: :method
+                    exact_match: GET
+                path: /echo/v1/sample
+              route:
+                prefix_rewrite: /echo/sample
+                timeout: 15s
+                cluster: echo-v1-cluster
+            - match:
+                headers:
+                  - name: :method
+                    exact_match: GET
+                path: /echo/v1/sample
+              route:
+                prefix_rewrite: /echo/sample
+                timeout: 15s
+                cluster: echo-v2-cluster
+      '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
