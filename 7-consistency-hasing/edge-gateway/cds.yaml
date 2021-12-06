@@ -1,0 +1,24 @@
+resources:
+  - name: echo-all-cluster
+    '@type': type.googleapis.com/envoy.config.cluster.v3.Cluster
+    connect_timeout: 1s
+    type: STRICT_DNS
+    # https://www.envoyproxy.io/docs/envoy/v1.18.4/intro/arch_overview/upstream/load_balancing/load_balancers#arch-overview-load-balancing-types
+    lb_policy: RING_HASH
+    ring_hash_lb_config:
+      maximum_ring_size: 128
+      minimum_ring_size: 2
+    load_assignment:
+      cluster_name: echo-all-cluster
+      endpoints:
+        - lb_endpoints:
+          - endpoint:
+              address:
+                socket_address:
+                  address: echo-v1
+                  port_value: 8080
+          - endpoint:
+              address:
+                socket_address:
+                  address: echo-v2
+                  port_value: 8080

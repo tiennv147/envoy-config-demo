@@ -1,0 +1,19 @@
+resources:
+  - name: http-route
+    '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+    virtual_hosts:
+      - name: http-route
+        domains:
+          - "*"
+        routes:
+          - match:
+              path: /echo/v1/sample
+            route:
+              cluster: echo-all-cluster
+              # https://www.envoyproxy.io/docs/envoy/v1.18.4/api-v3/config/route/v3/route_components.proto.html?highlight=route#envoy-v3-api-msg-config-route-v3-routeaction-hashpolicy
+              hash_policy:
+                - header:
+                    header_name: x-user-id
+              prefix_rewrite: /echo/sample
+              timeout: 15s
+

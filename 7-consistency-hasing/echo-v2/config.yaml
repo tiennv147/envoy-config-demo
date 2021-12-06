@@ -1,0 +1,17 @@
+listener:
+  tcp:
+    address: 0.0.0.0
+    port: 8080
+    secure: false
+
+logger:
+  pretty: true
+  level: DEBUG
+
+routes:
+  - match:
+      path: /echo/sample
+    response_headers:
+      version: v2
+      content-type: application/json
+    response_body: '{"sample": "sample data from echo v2"}'
