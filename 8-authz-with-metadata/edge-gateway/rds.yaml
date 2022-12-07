@@ -1,0 +1,25 @@
+resources:
+  - name: http-route
+    '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+    virtual_hosts:
+      - name: http-route
+        domains:
+          - "*"
+        routes:
+          - match:
+              path: /echo/v1/sample
+            route:
+              cluster: echo-v1-cluster
+              prefix_rewrite: /echo/sample
+              timeout: 15s
+          - match:
+              path: /echo/v1/sample-with-auth
+            metadata:
+              filter_metadata:
+                # envoy.filters.http.ext_authz: {"mykey_flow": true}
+                envoy.filters.http.lua: {"mykey_flow1": true}
+            route:
+              cluster: echo-v1-cluster
+              prefix_rewrite: /echo/sample
+              timeout: 15s
+
