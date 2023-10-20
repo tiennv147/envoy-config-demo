@@ -33,3 +33,8 @@ curl --location --request GET 'http://127.0.0.1:8080/echo/v1/sample'
 ```
 docker rm $(docker ps -aq)
 ```
+
+### Go inside container to check data
+```
+ docker exec -it edge-gateway sh
+```
