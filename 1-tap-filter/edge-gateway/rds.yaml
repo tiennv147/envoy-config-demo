@@ -1,0 +1,21 @@
+resources:
+    - name: http-route
+      virtual_hosts:
+        - name: http-route
+          domains:
+            - "*"
+          routes:
+            - match:
+                path: /echo/v1/sample
+              route:
+                prefix_rewrite: /echo/sample
+                timeout: 15s
+                cluster: echo-v1-cluster
+            - match:
+                path: /echo/v1/sample/error
+              route:
+                prefix_rewrite: /echo/sample/error
+                timeout: 15s
+                cluster: echo-v1-cluster
+
+      '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration

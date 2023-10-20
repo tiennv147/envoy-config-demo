@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  edge-gateway:
+    image: envoyproxy/envoy:v1.19.5
+    container_name: edge-gateway
+    volumes:
+      - ./edge-gateway/envoy.yaml:/etc/envoy/envoy.yaml
+      - ./edge-gateway/cds.yaml:/etc/envoy/cds.yaml
+      - ./edge-gateway/lds.yaml:/etc/envoy/lds.yaml
+      - ./edge-gateway/rds.yaml:/etc/envoy/rds.yaml
+    ports:
+      - 8080:8080
+      - 8081:8081
+    command: envoy -c /etc/envoy/envoy.yaml
+    environment:
+      - loglevel=info
+
+  echo-v1:
+    image: tiennv147/http-echo
+    container_name: echo-v1
+    volumes:
+      - ./echo-v1/config.yaml:/app/config.yaml
+    ports:
+      - 9000:8080
+    command: /app/server -c /app/config.yaml

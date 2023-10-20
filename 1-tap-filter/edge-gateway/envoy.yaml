@@ -1,0 +1,20 @@
+node:
+    id: edge-gw
+    cluster: edge-gw
+dynamic_resources:
+    lds_config:
+        resource_api_version: V3
+        path: /etc/envoy/lds.yaml
+    cds_config:
+        resource_api_version: V3
+        path: /etc/envoy/cds.yaml
+cluster_manager:
+    outlier_detection:
+        event_log_path: /dev/stdout
+admin:
+    access_log_path: /tmp/admin_access.log
+    address:
+        socket_address:
+            address: 0.0.0.0
+            port_value: 8081
+
