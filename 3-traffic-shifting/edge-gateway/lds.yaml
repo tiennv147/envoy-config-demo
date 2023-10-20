@@ -45,7 +45,7 @@ resources:
                 config_source:
                   path: /etc/envoy/rds.yaml
                   resource_api_version: V3
-                route_config_name: t6-http-route
+                route_config_name: http-route
               stat_prefix: ingress_http
               use_remote_address: true
     '@type': type.googleapis.com/envoy.config.listener.v3.Listener
