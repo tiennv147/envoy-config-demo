@@ -1,0 +1,19 @@
+resources:
+    - name: http-route
+      virtual_hosts:
+        - name: http-route
+          domains:
+            - "*"
+          routes:
+            - match:
+                path: /echo/v1/sample
+              route:
+                prefix_rewrite: /echo/sample
+                timeout: 15s
+                cluster: echo-v1-cluster
+                request_mirror_policies:
+                  cluster: echo-v2-cluster
+                  runtime_fraction:
+                    default_value:
+                      numerator: 100
+      '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
