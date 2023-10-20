@@ -2,12 +2,14 @@
 Here is the repository contains some usecases that I'm facing thought the time working with Envoy
 
 ## Categories
-1. Circuit Breaking
-2. Rate Limiting
+1. Tap Filter
+2. Request Mirroring
 3. Traffic Shifting
 4. Header-based Routing
 5. JWT Authentication
 6. Service Mesh
+7. Consistency Hashing
+8. AuthZ with Metadata
 
 
 ## Demo for header-based routing
@@ -25,4 +27,9 @@ curl --location --request GET 'http://127.0.0.1:8080/echo/v1/sample' \
 #### This request will go to cluster-2 if the is no header x-cloud or not match the value
 ```
 curl --location --request GET 'http://127.0.0.1:8080/echo/v1/sample'
+```
+
+### Clean up all container if needed
+```
+docker rm $(docker ps -aq)
 ```
