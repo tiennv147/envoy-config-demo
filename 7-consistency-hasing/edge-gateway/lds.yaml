@@ -1,5 +1,6 @@
 resources:
   - name: public-facing-listener
+    '@type': type.googleapis.com/envoy.config.listener.v3.Listener
     address:
       socket_address:
         address: 0.0.0.0
@@ -42,6 +43,13 @@ resources:
                         google_re2: {}
                         regex: ^/status$
                     pass_through_mode: false
+                - name: envoy.filters.http.lua
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+                    inline_code: |
+                      function envoy_on_request(request_handle)
+                        request_handle:headers():add("x-server-id", "server-1")
+                      end     
                 - name: envoy.filters.http.router
               rds:
                 config_source:
@@ -50,4 +58,5 @@ resources:
                 route_config_name: http-route
               stat_prefix: ingress_http
               use_remote_address: true
-    '@type': type.googleapis.com/envoy.config.listener.v3.Listener
+
+    

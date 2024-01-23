@@ -7,13 +7,23 @@ resources:
           - "*"
         routes:
           - match:
-              path: /echo/v1/sample
+              path: /echo/v1/header-hash
             route:
               cluster: echo-all-cluster
               # https://www.envoyproxy.io/docs/envoy/v1.18.4/api-v3/config/route/v3/route_components.proto.html?highlight=route#envoy-v3-api-msg-config-route-v3-routeaction-hashpolicy
               hash_policy:
                 - header:
-                    header_name: x-user-id
+                    header_name: x-server-id
+              prefix_rewrite: /echo/sample
+              timeout: 15s
+          - match:
+              path: /echo/v1/query-hash
+            route:
+              cluster: echo-all-cluster
+              # https://www.envoyproxy.io/docs/envoy/v1.18.4/api-v3/config/route/v3/route_components.proto.html?highlight=route#envoy-v3-api-msg-config-route-v3-routeaction-hashpolicy
+              hash_policy:
+                - query_parameter:
+                    name: server_id
               prefix_rewrite: /echo/sample
               timeout: 15s
 

@@ -6,8 +6,8 @@ resources:
     # https://www.envoyproxy.io/docs/envoy/v1.18.4/intro/arch_overview/upstream/load_balancing/load_balancers#arch-overview-load-balancing-types
     lb_policy: RING_HASH
     ring_hash_lb_config:
-      maximum_ring_size: 128
-      minimum_ring_size: 2
+      maximum_ring_size: 8192
+      minimum_ring_size: 1024
     load_assignment:
       cluster_name: echo-all-cluster
       endpoints:
